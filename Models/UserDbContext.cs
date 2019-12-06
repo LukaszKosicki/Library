@@ -7,12 +7,12 @@ using System.Threading.Tasks;
 
 namespace Library.Models
 {
-    public class UserDbContext : IdentityDbContext
+    public class UserDbContext : IdentityDbContext<AppUser>
     {
         public UserDbContext(DbContextOptions<UserDbContext> options)
             : base(options) {}
 
-
+        
 
     }
 }
