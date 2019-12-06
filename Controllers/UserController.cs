@@ -49,5 +49,17 @@ namespace Library.Controllers
             return false;
         }
 
+        [HttpGet("UserList")]
+        public JsonResult UserList()
+        {
+            IQueryable<AppUser> appUsers = userManager.Users;
+
+            JsonResult json = new JsonResult(appUsers);
+
+            return json;
+        }
+
+
+
     }
 }
