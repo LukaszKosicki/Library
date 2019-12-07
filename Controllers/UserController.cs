@@ -27,7 +27,7 @@ namespace Library.Controllers
         }
 
         [HttpPost("Create")]
-        public async Task<bool> CreateUser(UserViewModel model)
+        public async Task<JsonResult> CreateUser(UserViewModel model)
         {
             if (model != null)
             {
@@ -43,10 +43,10 @@ namespace Library.Controllers
 
                 if (result.Succeeded)
                 {
-                    return true;
+                    return Json(true);
                 }
             }
-            return false;
+            return Json(false);
         }
 
         [HttpGet("UserList")]
@@ -59,7 +59,29 @@ namespace Library.Controllers
             return json;
         }
 
+        [HttpPatch("EditUser")]
+        public async Task<JsonResult> EditUser(UserViewModel model)
+        {
+            if (model != null)
+            {
+                AppUser user = await userManager.FindByIdAsync(model.Id);
+                if (user != null)
+                {
+                    user.Email = model.Email;
+                    user.Name = model.Name;
+                    user.Surname = model.Surname;
+                    user.Addres = model.Address;
+                    user.PasswordHash = passwordHasher.HashPassword(user, model.Password);
 
-
+                    IdentityResult result = await userManager.UpdateAsync(user);
+                    if (result.Succeeded)
+                    {
+                        return Json(true);
+                    }
+                }
+                return Json(false);
+            }
+            return Json(false);
+        }
     }
 }
