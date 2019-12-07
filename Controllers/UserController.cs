@@ -2,6 +2,7 @@
 using Library.Models.ViewModel;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,17 +14,20 @@ namespace Library.Controllers
     public class UserController : Controller
     {
         private UserManager<AppUser> userManager;
-        private SignInManager<AppUser> signIn;
+        private SignInManager<AppUser> signInManager;
         private IPasswordHasher<AppUser> passwordHasher;
+        private IConfiguration configuration;
 
         public UserController(
             UserManager<AppUser> userMgr,
             SignInManager<AppUser> signInMgr,
-            IPasswordHasher<AppUser> hasher)
+            IPasswordHasher<AppUser> hasher,
+            IConfiguration config)
         {
             userManager = userMgr;
-            signIn = signInMgr;
+            signInManager = signInMgr;
             passwordHasher = hasher;
+            configuration = config;
         }
 
         [HttpPost("Create")]
@@ -78,6 +82,29 @@ namespace Library.Controllers
                     {
                         return Json(true);
                     }
+                }
+                return Json(false);
+            }
+            return Json(false);
+        }
+
+        [HttpDelete("DeleteUser")]
+        public async Task<JsonResult> DeleteUser(UserViewModel model)
+        {
+            AppUser user = await userManager.FindByIdAsync(model.Id);
+            if (user != null)
+            {
+                await signInManager.SignOutAsync();
+                IdentityResult removeFromRoleResult = await userManager.RemoveFromRoleAsync(
+                    user, configuration["Data:UserRole:User"]);
+                if (removeFromRoleResult.Succeeded)
+                {
+                    IdentityResult deleteResult = await userManager.DeleteAsync(user);
+                    if (deleteResult.Succeeded)
+                    {
+                        return Json(true);
+                    }
+                    return Json(false);
                 }
                 return Json(false);
             }
