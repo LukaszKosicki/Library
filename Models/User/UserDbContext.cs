@@ -15,14 +15,14 @@ namespace Library.Models
         public UserDbContext(DbContextOptions<UserDbContext> options)
             : base(options) {}
 
-        public async Task CreateAdminAndRoles(IServiceProvider provider,
+        public static async Task CreateAdminAndRoles(IServiceProvider provider,
             IConfiguration configuration)
         {
             UserManager<AppUser> userManager = provider.GetRequiredService<UserManager<AppUser>>();
             RoleManager<IdentityRole> roleManager = provider.GetRequiredService<RoleManager<IdentityRole>>();
 
-            string userRole = configuration["UserRole:User"];
-            string adminRole = configuration["UserRole:Admin"];
+            string userRole = configuration["Data:UserRole:User"];
+            string adminRole = configuration["Data:UserRole:Admin"];
 
             if (await roleManager.FindByNameAsync(userRole) == null)
             {
@@ -35,11 +35,13 @@ namespace Library.Models
 
             string login = configuration["Administrator:Login"];
             string password = configuration["Administrator:Password"];
+            string name = configuration["Administrator:Name"];
 
             if (await userManager.FindByEmailAsync(login) == null)
             {
                 AppUser user = new AppUser
                 {
+                    UserName = name,
                     Email = login
                 };
 
@@ -51,6 +53,5 @@ namespace Library.Models
                 }
             }
         }
-
     }
 }

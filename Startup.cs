@@ -43,7 +43,7 @@ namespace Library
                 options.Password.RequireLowercase = true;
                 options.Password.RequireUppercase = true;
                 options.Password.RequireNonAlphanumeric = false;
-                options.Password.RequiredUniqueChars = 2;
+                options.Password.RequiredUniqueChars = 0;
                 options.SignIn.RequireConfirmedEmail = false;
             }).AddEntityFrameworkStores<UserDbContext>()
                 .AddDefaultTokenProviders();
@@ -83,6 +83,9 @@ namespace Library
                     spa.UseReactDevelopmentServer(npmScript: "start");
                 }
             });
+
+            UserDbContext.CreateAdminAndRoles(app.ApplicationServices,
+                Configuration).Wait();
         }
     }
 }
