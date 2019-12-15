@@ -33,7 +33,7 @@ export default class NavMenu extends React.Component {
                   <NavLink tag={Link} className="btn btn-outline-info btn-sm ml-3 font-weight-bold text-info" to="/login">Logowanie</NavLink>
                 </NavItem>
                 <NavItem>
-                  <NavLink tag={Link} className="btn btn-outline-warning ml-3 btn-sm text-warning" to="/register">Rejestracja</NavLink>
+                  <NavLink tag={Link} className="btn btn-outline-secondary ml-3 btn-sm text-secondary" to="/register">Rejestracja</NavLink>
                 </NavItem>
               </ul>
             </Collapse>
