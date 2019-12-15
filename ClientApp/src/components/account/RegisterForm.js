@@ -7,8 +7,9 @@ import Box from '@material-ui/core/Box';
 import Copyright from "../common/Copyright";
 import FormControl from '@material-ui/core/FormControl';
 import FormHelperText from '@material-ui/core/FormHelperText';
+import { withRouter } from "react-router";
 
-export default function RegisterForm({ classes }) {
+function RegisterForm({ classes, history }) {
     const [email, setEmail] = useState(
         {
             value: "",
@@ -33,6 +34,10 @@ export default function RegisterForm({ classes }) {
         }
     );
 
+    const [name, setName] = useState();
+    const [surname, setSurname] = useState();
+    const [address, setAddress] = useState();
+
     const [conditions, setConditions] = useState({
         value: false,
         helperText: ""
@@ -40,8 +45,29 @@ export default function RegisterForm({ classes }) {
 
     function sendForm() {
         if (email.value.length > 0 && password.value.length > 0 && password.value === repeatPassword.value && conditions.value) {  
-                console.log("send");
+            var registerModel = {
+                email: email["value"],
+                password: password["value"],
+                name: name,
+                surname: surname,
+                address: address
+            }
+            console.log(registerModel);
+            fetch("api/user/Create", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(registerModel)
+            })
+                .then(resp => resp.json())
+                .then(resp => {
+                    console.log(resp);
+                    resp ? history.push("/logowanie") :
+                        alert("Błąd! Użytkownik nie został zarejestrowany!");
+                });
         } else {
+            console.log(history);
             checkForm();
         }
 
@@ -157,6 +183,37 @@ export default function RegisterForm({ classes }) {
                 id="repeatPassword"
                 autoComplete="current-password"
             />
+            <TextField
+                variant="outlined"
+                margin="normal"
+                fullWidth
+                name="name"
+                label="Imię"
+                type="test"
+                onChange={(e) => setName(e.target.value)}
+                id="name"
+            />
+            <TextField
+                variant="outlined"
+                margin="normal"
+                fullWidth
+                id="surname"
+                label="Nazwisko"
+                name="surname"
+                onChange={(e) => setSurname(e.target.value)}
+                type="text"
+            />
+            <TextField
+                variant="outlined"
+                margin="normal"
+                fullWidth
+                name="address"
+                label="Adres"
+                type="text"
+                onChange={(e) => setAddress(e.target.value)}
+                id="password"
+            />
+            
             <FormControl required error={!conditions.value}>
                 <FormControlLabel
                     control={<Checkbox onChange={(e) => setConditions({
@@ -185,3 +242,5 @@ export default function RegisterForm({ classes }) {
         </form>
     );
 }
+
+export default (withRouter)(RegisterForm);
