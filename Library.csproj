@@ -27,7 +27,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\api\" />
     <Folder Include="Models\Book\Interface\" />
     <Folder Include="Models\Book\Repository\" />
   </ItemGroup>
