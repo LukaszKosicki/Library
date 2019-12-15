@@ -37,6 +37,7 @@ namespace Library.Controllers
             {
                 AppUser user = new AppUser
                 {
+                    UserName = model.Email,
                     Email = model.Email,
                     Name = model.Name,
                     Surname = model.Surname,
@@ -101,6 +102,7 @@ namespace Library.Controllers
                     if (passwordHasher.VerifyHashedPassword(user, user.PasswordHash, model.OldPassword)
                         == PasswordVerificationResult.Success)
                     {
+                        user.UserName = model.Email;
                         user.Email = model.Email;
                         user.Name = model.Name;
                         user.Surname = model.Surname;
