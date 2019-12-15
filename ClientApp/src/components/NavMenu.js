@@ -30,7 +30,10 @@ export default class NavMenu extends React.Component {
                   <NavLink tag={Link} className="btn btn-sm" to="/">Home</NavLink>
                 </NavItem>
                 <NavItem>
-                  <NavLink tag={Link} className="btn btn-outline-info btn-sm ml-3 font-weight-bold text-info" to="/login">Logowanie</NavLink>
+                  <NavLink tag={Link} className="btn btn-sm" to="/panel">Twoje konto</NavLink>
+                </NavItem>
+                <NavItem>
+                  <NavLink tag={Link} className="btn btn-outline-success btn-sm ml-3 font-weight-bold text-success" to="/login">Logowanie</NavLink>
                 </NavItem>
                 <NavItem>
                   <NavLink tag={Link} className="btn btn-outline-secondary ml-3 btn-sm text-secondary" to="/register">Rejestracja</NavLink>
