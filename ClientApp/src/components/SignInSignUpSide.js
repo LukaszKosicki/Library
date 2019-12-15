@@ -8,12 +8,15 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import LoginForm from "./account/LoginForm";
 import RegisterForm from "./account/RegisterForm";
-
+import './Main.css';
 
 
 const useStyles = makeStyles(theme => ({
   root: {
-    height: '100vh',
+    height: '100%',
+  },
+  main: {
+    marginBottom: '20px',
   },
   image: {
     backgroundImage: 'url(https://source.unsplash.com/random)',
