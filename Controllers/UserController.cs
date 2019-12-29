@@ -30,13 +30,15 @@ namespace Library.Controllers
             configuration = config;
         }
 
-        [HttpPost("Create")]
-        public async Task<JsonResult> CreateUser([FromBody] UserViewModel model)
+
+        [HttpPost]
+        public async Task<JsonResult> CreateUser([FromBody]UserViewModel model)
         {
             if (model != null)
             {
                 AppUser user = new AppUser
                 {
+                    UserName = model.Email,
                     Email = model.Email,
                     Name = model.Name,
                     Surname = model.Surname,
@@ -44,71 +46,81 @@ namespace Library.Controllers
                 };
 
                 IdentityResult result = await userManager.CreateAsync(user, model.Password);
-
                 if (result.Succeeded)
                 {
-                    return Json(true);
+                    return Json(new { Msg = "Utworzono użytkownika", CreateResult = true });
                 }
             }
-            return Json(false);
+            return Json(new { Msg = "Nie udało się utworzyć użytkownika", CreateResult = false});
         }
 
-        [HttpGet("UserList")]
-        public JsonResult UserList()
+        [HttpGet]
+        public IQueryable<AppUser> UserList() => userManager.Users;
+
+        [HttpGet("{id}")]
+        public async Task<JsonResult> UserBack(string id)
         {
-            IQueryable<AppUser> appUsers = userManager.Users;
-
-            JsonResult json = new JsonResult(appUsers);
-
-            return json;
-        }
-
-        [HttpPatch("EditUser")]
-        public async Task<JsonResult> EditUser(UserViewModel model)
-        {
-            if (model != null)
+            if (id != null)
             {
-                AppUser user = await userManager.FindByIdAsync(model.Id);
+                AppUser user = await userManager.FindByIdAsync(id);
                 if (user != null)
                 {
-                    user.Email = model.Email;
-                    user.Name = model.Name;
-                    user.Surname = model.Surname;
-                    user.Addres = model.Address;
-                    user.PasswordHash = passwordHasher.HashPassword(user, model.Password);
-
-                    IdentityResult result = await userManager.UpdateAsync(user);
-                    if (result.Succeeded)
-                    {
-                        return Json(true);
-                    }
+                    return Json(new { user, Result = true });
                 }
-                return Json(false);
+                return Json(new { Msg = "Użytkownik o danym id nie istnieje.", Result = false });
             }
-            return Json(false);
+            return Json(new { Msg = "Nie podano id użytkownika.", Result = false });
         }
 
-        [HttpDelete("DeleteUser")]
-        public async Task<JsonResult> DeleteUser(UserViewModel model)
+        [HttpDelete("{id}")]
+        public async Task<JsonResult> DeleteUser(string id)
         {
-            AppUser user = await userManager.FindByIdAsync(model.Id);
-            if (user != null)
+            if (id != null)
             {
-                await signInManager.SignOutAsync();
-                IdentityResult removeFromRoleResult = await userManager.RemoveFromRoleAsync(
-                    user, configuration["Data:UserRole:User"]);
-                if (removeFromRoleResult.Succeeded)
+                AppUser user = await userManager.FindByIdAsync(id);
+                if (user != null)
                 {
                     IdentityResult deleteResult = await userManager.DeleteAsync(user);
                     if (deleteResult.Succeeded)
                     {
-                        return Json(true);
+                        return Json(new { Msg = "Usunięto użytkownika z bazy.", DeleteResult = true });
                     }
-                    return Json(false);
+                    return Json(new { Msg = "Nie udało się usunąć użytkownika.", DeleteResult = false });
                 }
-                return Json(false);
+                return Json(new { Msg = "Nie znaleziono użytkownika w bazie.", DeleteResult = false });
             }
-            return Json(false);
+            return Json(new { Msg = "Nie podano id użytkownika.", DeleteResult = false });
+        }
+
+        [HttpPatch]
+        public async Task<JsonResult> EditUser([FromBody]UserViewModel model)
+        {
+            if (model.Id != null)
+            {
+                AppUser user = await userManager.FindByIdAsync(model.Id);
+                if (user != null)
+                {
+                    if (passwordHasher.VerifyHashedPassword(user, user.PasswordHash, model.OldPassword)
+                        == PasswordVerificationResult.Success)
+                    {
+                        user.UserName = model.Email;
+                        user.Email = model.Email;
+                        user.Name = model.Name;
+                        user.Surname = model.Surname;
+                        user.Addres = model.Address;
+                        user.PasswordHash = passwordHasher.HashPassword(user, model.Password);
+                    }
+
+                    IdentityResult updateResult = await userManager.UpdateAsync(user);
+                    if (updateResult.Succeeded)
+                    {
+                        return Json(new { Msg = "Dane użytkownika zostały zaktualizowane.", UpdateResult = true });
+                    }
+                    return Json(new { Msg = "Podane hasło jest nie prawidłowe.", UpdateResult = false });
+                }
+                return Json(new { Msg = "Nie znaleziono użytkownika w bazie.", UpdateResult = false });
+            }
+            return Json(new { Msg = "Nie przekazano użytkownika.", UpdateResult = false });
         }
     }
 }

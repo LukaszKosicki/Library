@@ -27,7 +27,20 @@ export default function LoginForm({ classes }) {
 
     function sendForm() {
         if (email.value.length > 0 && password.value.length > 0) {
-            console.log("send");
+            var loginModel = {
+                email: email["value"],
+                password: password["value"]
+            }
+            console.log(loginModel);
+            fetch("api/account", {
+                method: "post",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(loginModel)
+            })
+                .then(resp => resp.json())
+                .then(resp => console.log(resp));
         } else {
             checkForm();
         }

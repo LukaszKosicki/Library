@@ -53,7 +53,7 @@ function RegisterForm({ classes, history }) {
                 address: address
             }
             console.log(registerModel);
-            fetch("api/user/Create", {
+            fetch("api/user", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
@@ -63,7 +63,7 @@ function RegisterForm({ classes, history }) {
                 .then(resp => resp.json())
                 .then(resp => {
                     console.log(resp);
-                    resp ? history.push("/logowanie") :
+                    resp ? history.push("/login") :
                         alert("Błąd! Użytkownik nie został zarejestrowany!");
                 });
         } else {
