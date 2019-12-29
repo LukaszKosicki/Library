@@ -36,7 +36,7 @@ namespace Library.Models.BookRepository
                 context.SaveChanges();
                 return "Pomyślnie zapisano zmiany";
             }
-            return "Nie znaleziono książki o podanym Id";
+            return null;
         }
 
         public bool DeleteBook(string id)
