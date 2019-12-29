@@ -53,7 +53,7 @@ namespace Library
             }).AddEntityFrameworkStores<UserDbContext>()
                 .AddDefaultTokenProviders();
 
-            services.AddTransient<IRepository, Repository>();
+            services.AddTransient<IBookRepo, BookRepo>();
         }
 
 

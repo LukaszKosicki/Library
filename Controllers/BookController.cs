@@ -13,22 +13,30 @@ namespace Library.Controllers
     [Route("api/[controller]")]
     public class BookController : Controller
     {
-        private IRepository repository;
+        private IBookRepo repository;
 
-        public BookController(IRepository repo)
+        public BookController(IBookRepo repo)
         {
             repository = repo;
         }
 
-        //public IQueryable<Book> GetAllBook() => Json(repository.Books);
+        [HttpGet]
+        public JsonResult GetBookList()
+        {
+            //********************************************** naprawić, linq - ustawić tabele
+            return Json(repository.Books);
+        }
 
         [HttpGet("{id}")]
-        public JsonResult GetOneBook([FromBody] BookViewModel model)
+        public JsonResult GetOneBook(int id)
         {
-            if (model != null)
+            if (id != 0)
             {
-                Book book = repository.FindBook(model.BookId);
-                return Json(book);
+                Book book = repository.FindBook(id);
+                if (book != null)
+                {
+                    return Json(book);
+                }
             }
             return Json(new { Msg = "Nie znaleziono książki o danym id.", Result = false });
         }

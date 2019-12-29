@@ -9,8 +9,8 @@ namespace Library.Models.BookRepository.Model
     public class Book_Copies
     {
         [Key]
-        public string CopiesId { get; set; }
-        public string BookId { get; set; }
+        public int CopiesId { get; set; }
+        public int BookId { get; set; }
         public int No_Of_Copies { get; set; }
 
     }

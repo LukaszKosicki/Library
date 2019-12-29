@@ -9,8 +9,9 @@ namespace Library.Models.BookRepository.Model
     public class Category
     {
         [Key]
-        public string CategoryId { get; set; }
-        public string BookId { get; set; }
+        public int CategoryId { get; set; }
         public string Name { get; set; }
+
+        public ICollection<Book> Books { get; set; }
     }
 }

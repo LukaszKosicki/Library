@@ -9,11 +9,11 @@ namespace Library.Models.BookRepository.Model
     public class Book_Loans
     {
         [Key]
-        public string LoansId { get; set; }
-        public string BookId { get; set; }
+        public int LoansId { get; set; }
         public string UserId { get; set; }
         public DateTime Date_Out { get; set; }
         public DateTime Date_In { get; set; }
 
+        public ICollection<Book> Books { get; set; }
     }
 }

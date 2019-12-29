@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace Library.Models.BookRepository
 {
-    public class Repository : IRepository
+    public class BookRepo : IBookRepo
     {
         private LibraryDbContext context;
-        public Repository(LibraryDbContext ctx)
+        public BookRepo(LibraryDbContext ctx)
         {
             context = ctx;
         }
@@ -39,9 +39,9 @@ namespace Library.Models.BookRepository
             return null;
         }
 
-        public bool DeleteBook(string id)
+        public bool DeleteBook(int id)
         {
-            if (id != null)
+            if (id != 0)
             {
                 var deleteBook = context.Books.FirstOrDefault(b =>
                     b.Id == id);
@@ -53,9 +53,9 @@ namespace Library.Models.BookRepository
             return false;
         }
 
-        public Book FindBook(string id)
+        public Book FindBook(int id)
         {
-            if (id != null)
+            if (id != 0)
             {
                 var book = context.Books.FirstOrDefault(b =>
                     b.Id == id);

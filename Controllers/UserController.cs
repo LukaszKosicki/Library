@@ -53,8 +53,11 @@ namespace Library.Controllers
             return Json(new { Msg = "Nie udało się utworzyć użytkownika", CreateResult = false});
         }
 
-        //[HttpGet]
-        //public IQueryable<AppUser> UserList() => userManager.Users;
+        [HttpGet]
+        public JsonResult UserList()
+        {
+            return Json(userManager.Users);
+        }
 
         [HttpGet("{id}")]
         public async Task<JsonResult> UserBack(string id)

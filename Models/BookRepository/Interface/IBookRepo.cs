@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace Library.Models.BookRepository
 {
-    public interface IRepository
+    public interface IBookRepo
     {
         IQueryable<Book> Books { get; }
 
         string AddBook(Book book);
-        bool DeleteBook(string id);
-        Book FindBook(string id);
+        bool DeleteBook(int id);
+        Book FindBook(int id);
     }
 }
