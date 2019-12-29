@@ -54,7 +54,7 @@ namespace Library.Migrations.LibraryDb
 
                     b.HasKey("AuthorId");
 
-                    b.ToTable("Book_Authors");
+                    b.ToTable("Authors");
                 });
 
             modelBuilder.Entity("Library.Models.BookRepository.Model.Book_Copies", b =>
@@ -89,7 +89,7 @@ namespace Library.Migrations.LibraryDb
 
                     b.HasKey("LoansId");
 
-                    b.ToTable("Book_Loans");
+                    b.ToTable("Loans");
                 });
 
             modelBuilder.Entity("Library.Models.BookRepository.Model.Category", b =>
@@ -102,7 +102,7 @@ namespace Library.Migrations.LibraryDb
 
                     b.HasKey("CategoryId");
 
-                    b.ToTable("Category");
+                    b.ToTable("Categories");
                 });
 
             modelBuilder.Entity("Library.Models.BookRepository.Model.Book", b =>

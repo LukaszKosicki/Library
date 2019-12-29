@@ -12,7 +12,7 @@ namespace Library.Models.BookRepository.Interface
 
         string AddCategory(Category category);
         bool DeleteCategory(int id);
-        Book FindCategory(int id);
+        Category FindCategory(int id);
 
 
 

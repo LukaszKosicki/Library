@@ -24,18 +24,6 @@ namespace Library.Models.BookRepository
                 context.SaveChanges();
                 return "Dodano książkę do zbioru";
             }
-
-            var editBook = context.Books.FirstOrDefault(b =>
-                b.Id == book.Id);
-            if (editBook != null)
-            {
-                editBook.Title = book.Title;
-                editBook.Get_Category.Name = book.Get_Category.Name;
-                editBook.Get_Book_Copies.No_Of_Copies = book.Get_Book_Copies.No_Of_Copies;
-                editBook.Get_Book_Authors.Name = book.Get_Book_Authors.Name;
-                context.SaveChanges();
-                return "Pomyślnie zapisano zmiany";
-            }
             return null;
         }
 

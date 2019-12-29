@@ -9,7 +9,7 @@ namespace Library.Migrations.LibraryDb
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Book_Authors",
+                name: "Authors",
                 columns: table => new
                 {
                     AuthorId = table.Column<int>(nullable: false)
@@ -18,11 +18,24 @@ namespace Library.Migrations.LibraryDb
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Book_Authors", x => x.AuthorId);
+                    table.PrimaryKey("PK_Authors", x => x.AuthorId);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Book_Loans",
+                name: "Categories",
+                columns: table => new
+                {
+                    CategoryId = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Name = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Categories", x => x.CategoryId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Loans",
                 columns: table => new
                 {
                     LoansId = table.Column<int>(nullable: false)
@@ -33,20 +46,7 @@ namespace Library.Migrations.LibraryDb
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Book_Loans", x => x.LoansId);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Category",
-                columns: table => new
-                {
-                    CategoryId = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Name = table.Column<string>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Category", x => x.CategoryId);
+                    table.PrimaryKey("PK_Loans", x => x.LoansId);
                 });
 
             migrationBuilder.CreateTable(
@@ -64,21 +64,21 @@ namespace Library.Migrations.LibraryDb
                 {
                     table.PrimaryKey("PK_Books", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Books_Book_Authors_AuthorId",
+                        name: "FK_Books_Authors_AuthorId",
                         column: x => x.AuthorId,
-                        principalTable: "Book_Authors",
+                        principalTable: "Authors",
                         principalColumn: "AuthorId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Books_Category_CategoryId",
+                        name: "FK_Books_Categories_CategoryId",
                         column: x => x.CategoryId,
-                        principalTable: "Category",
+                        principalTable: "Categories",
                         principalColumn: "CategoryId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Books_Book_Loans_LoansId",
+                        name: "FK_Books_Loans_LoansId",
                         column: x => x.LoansId,
-                        principalTable: "Book_Loans",
+                        principalTable: "Loans",
                         principalColumn: "LoansId",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -134,13 +134,13 @@ namespace Library.Migrations.LibraryDb
                 name: "Books");
 
             migrationBuilder.DropTable(
-                name: "Book_Authors");
+                name: "Authors");
 
             migrationBuilder.DropTable(
-                name: "Category");
+                name: "Categories");
 
             migrationBuilder.DropTable(
-                name: "Book_Loans");
+                name: "Loans");
         }
     }
 }
