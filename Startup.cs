@@ -98,7 +98,7 @@ namespace Library
 
             UserDbContext.CreateAdminAndRoles(app.ApplicationServices,
                 Configuration).Wait();
-            //SeedData.EnsurePopulated(app);
+            SeedData.EnsurePopulated(app);
         }
     }
 }
