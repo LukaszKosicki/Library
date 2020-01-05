@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Library.Migrations.LibraryDb
 {
     [DbContext(typeof(LibraryDbContext))]
-    [Migration("20191229185024_initial")]
+    [Migration("20200105131748_initial")]
     partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -31,8 +31,6 @@ namespace Library.Migrations.LibraryDb
 
                     b.Property<int>("CategoryId");
 
-                    b.Property<int?>("LoansId");
-
                     b.Property<string>("Title");
 
                     b.HasKey("Id");
@@ -41,9 +39,20 @@ namespace Library.Migrations.LibraryDb
 
                     b.HasIndex("CategoryId");
 
-                    b.HasIndex("LoansId");
-
                     b.ToTable("Books");
+                });
+
+            modelBuilder.Entity("Library.Models.BookRepository.Model.BookLoansManyToMany", b =>
+                {
+                    b.Property<int>("BookId");
+
+                    b.Property<int>("Book_LoansId");
+
+                    b.HasKey("BookId", "Book_LoansId");
+
+                    b.HasIndex("Book_LoansId");
+
+                    b.ToTable("BookLoansManyToMany");
                 });
 
             modelBuilder.Entity("Library.Models.BookRepository.Model.Book_Authors", b =>
@@ -118,10 +127,19 @@ namespace Library.Migrations.LibraryDb
                         .WithMany("Books")
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Library.Models.BookRepository.Model.BookLoansManyToMany", b =>
+                {
+                    b.HasOne("Library.Models.BookRepository.Model.Book", "Book")
+                        .WithMany("BookLoansManyToManies")
+                        .HasForeignKey("BookId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("Library.Models.BookRepository.Model.Book_Loans", "Book_Loans")
-                        .WithMany("Books")
-                        .HasForeignKey("LoansId");
+                        .WithMany("BookLoansManyToManies")
+                        .HasForeignKey("Book_LoansId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Library.Models.BookRepository.Model.Book_Copies", b =>

@@ -14,6 +14,6 @@ namespace Library.Models.BookRepository.Model
         public DateTime Date_Out { get; set; }
         public DateTime Date_In { get; set; }
 
-        public ICollection<Book> Books { get; set; }
+        public IList<BookLoansManyToMany> BookLoansManyToManies { get; set; }
     }
 }
