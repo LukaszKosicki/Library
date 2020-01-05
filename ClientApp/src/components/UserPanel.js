@@ -3,15 +3,8 @@ import { connect } from 'react-redux';
 import './Main.css';
 import { TabContent, TabPane, Nav, NavItem, NavLink, Card, Button, CardTitle, CardText, Row, Col, Container, Table } from 'reactstrap';
 import classnames from 'classnames';
+import Greeting from '../components/common/Greeting';
 
-const Greeting = ({userName, userSurname}) => {
-    return (
-        <div className="mb-4">
-            <h1>Panel użytkownika</h1>
-            <strong>{userName} {userSurname}</strong>
-        </div>
-    )
-}
 
 const BookshelfTable = () => {
   var today = new Date();

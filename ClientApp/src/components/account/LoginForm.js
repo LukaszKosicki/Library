@@ -7,8 +7,10 @@ import Link from '@material-ui/core/Link';
 import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
 import Copyright from "../common/Copyright";
+import { connect } from 'react-redux';
+import { set_user } from "../../store/actions/user";
 
-export default function LoginForm({ classes }) {
+function LoginForm(props) {
     const [email, setEmail] = useState(
         {
             value: "",
@@ -40,7 +42,13 @@ export default function LoginForm({ classes }) {
                 body: JSON.stringify(loginModel)
             })
                 .then(resp => resp.json())
-                .then(resp => console.log(resp));
+                .then(resp => {
+                    if (resp.signInResult == true) {
+                        console.log(resp);
+                        props.setUser(resp.user);
+                        console.log(props);
+                    }
+                });
         } else {
             checkForm();
         }
@@ -77,7 +85,7 @@ export default function LoginForm({ classes }) {
     }
 
     return (
-        <form className={classes.form} noValidate>
+        <form className={props.classes.form} noValidate>
             <TextField
                 error={email.valid}
                 variant="outlined"
@@ -120,7 +128,7 @@ export default function LoginForm({ classes }) {
                 variant="contained"
                 color="primary"
                 onClick={sendForm}
-                className={classes.submit}
+                className={props.classes.submit}
             >
                 Zaloguj się
             </Button>
@@ -142,3 +150,15 @@ export default function LoginForm({ classes }) {
         </form>
         );
 }
+
+const mapStateToProps = state => ({
+    state: state
+});
+
+const mapDispatchToProps = dispatch => {
+    return {
+        setUser: user => dispatch(set_user(user))
+    }
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(LoginForm);

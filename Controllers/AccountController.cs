@@ -33,7 +33,7 @@ namespace Library.Controllers
                     await signInManager.PasswordSignInAsync(user, model.Password, true, false);
                 if (signInResult.Succeeded)
                 {
-                    return Json(new { Msg = "Zalogowano pomyślnie.", SignInResult = true, user = JsonConvert.SerializeObject(user) });
+                    return Json(new { Msg = "Zalogowano pomyślnie.", SignInResult = true, user = new { UserName = user.UserName } });
                 }
                 return Json(new { Msg = "Błędna nazwa użytkownika lub hasło.", SignInResult = false });
             }
