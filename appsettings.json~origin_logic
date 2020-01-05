@@ -1,0 +1,19 @@
+{
+  "Data": {
+    "LibraryIdentity": {
+      "ConnectionString": "Server=KIJU-LAPTOP\\SQLEXPRESS;Database=LibraryIdentity;Trusted_Connection=True;MultipleActiveResultSets=true"
+    },
+    "LibraryRepository": {
+      "ConnectionString": "Server=KIJU-LAPTOP\\SQLEXPRESS;Database=LibraryRepository;Trusted_Connection=True;MultipleActiveResultSets=true"
+    },
+    "UserRole": {
+      "User": "Uzytkownicy",
+      "Admin": "Administratorzy"
+    }
+  },
+  "Administrator": {
+    "Name": "Admin",
+    "Login": "admin@example.com",
+    "Password": "zaq1@WSX"
+  }
+}

@@ -55,7 +55,10 @@ namespace Library.Controllers
         }
 
         [HttpGet]
-        public IQueryable<AppUser> UserList() => userManager.Users;
+        public JsonResult UserList()
+        {
+            return Json(userManager.Users);
+        }
 
         [HttpGet("{id}")]
         public async Task<JsonResult> UserBack(string id)

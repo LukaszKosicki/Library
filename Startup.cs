@@ -1,4 +1,7 @@
 using Library.Models;
+using Library.Models.BookRepository;
+using Library.Models.BookRepository.Interface;
+using Library.Models.BookRepository.Repo;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -35,6 +38,10 @@ namespace Library
                 options.UseSqlServer(
                     Configuration["Data:LibraryIdentity:ConnectionString"]));
 
+            services.AddDbContext<LibraryDbContext>(options =>
+                options.UseSqlServer(
+                    Configuration["Data:LibraryRepository:ConnectionString"]));
+
             services.AddIdentity<AppUser, IdentityRole>(options =>
             {
                 options.User.RequireUniqueEmail = true;
@@ -47,6 +54,11 @@ namespace Library
                 options.SignIn.RequireConfirmedEmail = false;
             }).AddEntityFrameworkStores<UserDbContext>()
                 .AddDefaultTokenProviders();
+
+            services.AddTransient<IAuthorRepo, AuthorRepo>();
+            services.AddTransient<IBookRepo, BookRepo>();
+            services.AddTransient<ICategoryRepo, CategoryRepo>();
+            services.AddTransient<ILoansRepo, LoansRepo>();
         }
 
 

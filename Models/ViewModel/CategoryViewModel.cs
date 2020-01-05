@@ -3,13 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Library.Models.Book.Model
+namespace Library.Models.ViewModel
 {
-    public class Category
+    public class CategoryViewModel
     {
-        public string Id { get; set; }
+        public int CategoryId { get; set; }
         public string Name { get; set; }
-
-        public Book Book { get; set; }
     }
 }
