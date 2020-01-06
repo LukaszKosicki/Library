@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Library.Models.BookRepository.Interface
 {
-    interface ILoansRepo
+    public interface ILoansRepo
     {
         IQueryable<Book_Loans> Loans { get; }
 

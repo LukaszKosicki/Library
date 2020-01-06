@@ -2,6 +2,7 @@
 using Library.Models.BookRepository.Model;
 using Library.Models.ViewModel;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -23,8 +24,15 @@ namespace Library.Controllers
         [HttpGet]
         public JsonResult GetBookList()
         {
-            //********************************************** naprawić, linq - ustawić tabele
-            return Json(repository.Books);
+            var result = repository.Books.Include(b => b.Get_Book_Authors).Select(b => new
+            {
+                b.Id,
+                b.Title,
+                Author = b.Get_Book_Authors.Name,
+                Category = b.Get_Category.Name,
+                CopiesNo = b.Get_Book_Copies.No_Of_Copies
+            });
+            return Json(result);
         }
 
         [HttpGet("{id}")]
@@ -35,6 +43,8 @@ namespace Library.Controllers
                 Book book = repository.FindBook(id);
                 if (book != null)
                 {
+                    // dodać zapytanie Linq o zwrot książki z autorem itp
+
                     return Json(book);
                 }
             }
