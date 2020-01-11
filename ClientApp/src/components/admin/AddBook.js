@@ -5,6 +5,10 @@ import { connect } from "react-redux";
 function AddBook() {
     const [authors, setAuthors] = useState([]);
     const [categories, setCategories] = useState([]);
+    const [title, setTitle] = useState([]);
+    const [author, setAuthor] = useState('');
+    const [category, setCategory] = useState('');
+    
 
     function getAuthors() {
         fetch('api/author')
@@ -15,7 +19,31 @@ function AddBook() {
     function getCategory() {
         fetch('api/category')
             .then(resp => resp.json())
-            .then(resp => { console.log(categories); setCategories(resp) })
+            .then(resp => { setCategories(resp) })
+    }
+
+    function saveBook() {
+        var bookModel = {
+            title: title,
+            author: author,
+            category: category
+        }
+
+        fetch("api/book", {
+            method: 'POST',
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(bookModel)
+        })
+            .then(resp => resp.json())
+            .then(resp => {
+                if (resp.result) {
+
+                } else {
+                    alert(resp.msg);
+                }
+            })
     }
 
    useEffect(() => {

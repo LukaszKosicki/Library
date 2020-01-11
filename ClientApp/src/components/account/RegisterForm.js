@@ -52,7 +52,7 @@ function RegisterForm({ classes, history }) {
                 surname: surname,
                 address: address
             }
-            console.log(registerModel);
+            
             fetch("api/user", {
                 method: "POST",
                 headers: {
