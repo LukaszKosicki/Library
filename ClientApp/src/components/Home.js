@@ -24,18 +24,10 @@ const Home = props => (
                     <span className="d-block mb-4">Nowa biblioteka w ASP.NET Core i React.js</span>
                     <div className="d-flex flex-row">
                         {/*TODO: Podmienić na prawdziwy link.*/}
-                        <NavLink className="px-0" href="https://github.com/">
+                        <NavLink className="px-0" href="https://github.com/LukaszKosicki/Library">
                             <Button color="warning font-weight-bold d-inline-flex align-items-center justify-content-center shadow" target="_blank">
                                 <GitHubIcon className="mr-2 small"/>
                                 <span>Zobacz na GitHub</span>
-                            </Button>
-                        </NavLink>
-
-                        {/*TODO: Podmienić na prawdziwy link.*/}
-                        <NavLink className="px-0 ml-3" href="http://ami.responsivedesign.is/">
-                            <Button color="success font-weight-bold d-inline-flex align-items-center justify-content-center shadow" target="_blank">
-                                <DevicesOtherIcon className="mr-2 small"/>
-                                <span>Sprawdź RWD</span>
                             </Button>
                         </NavLink>
                     </div>

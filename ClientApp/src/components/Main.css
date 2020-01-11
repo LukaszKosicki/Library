@@ -29,3 +29,7 @@ body{
 .documentBody > .container {
   min-height: 100%;
 }
+
+.nav-tabs .nav-item {
+  cursor: pointer;
+}
