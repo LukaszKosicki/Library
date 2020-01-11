@@ -12,7 +12,7 @@ function Books() {
 
     useEffect(() => {
         getBooks();
-    })
+    }, [])
 
     function deleteBook(bookId) {
         fetch('api/book/' + bookId, {
@@ -40,9 +40,9 @@ function Books() {
             </thead>
             <tbody>
                 {
-                    books.map(item => {
+                    books.map((item, index) => {
                         return (
-                            <tr>
+                            <tr key={"book" + index}>
                                 <th scope="row">{item.id}</th>
                                 <td>{item.title}</td>
                                 <td>{item.author}</td>

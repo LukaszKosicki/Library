@@ -2,9 +2,10 @@
 
 export default (state = {
     user: {
-        userName: '',
+        userName: 'admin',
         email: '',
-        role: ''
+        role: 'admin',
+        isLogged: true
     }
 }, action) => {
     switch (action.type) {
@@ -13,6 +14,15 @@ export default (state = {
                 ...state,
                 user: action.user
             };
+        case actions.NOT_LOGGED:
+            return {
+                ...state,
+                user: {
+                    user: {
+                        isLogged: false
+                    }
+                }
+            }
         default:
             return state;
     }

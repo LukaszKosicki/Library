@@ -37,7 +37,7 @@ namespace Library.Controllers
                 if (signInResult.Succeeded)
                 {
                     return Json(new { Msg = "Zalogowano pomyślnie.", SignInResult = true, user = new { UserName = user.UserName,
-                        role = user.UserName == "Admin" ? "admin" : "user" } });
+                        role = user.UserName == "Admin" ? "admin" : "user" , isLogged = true} });
                 }
                 return Json(new { Msg = "Błędna nazwa użytkownika lub hasło.", SignInResult = false });
             }
