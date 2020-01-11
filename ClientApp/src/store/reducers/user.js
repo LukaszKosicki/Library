@@ -5,6 +5,7 @@ export default (state = {
         userName: 'admin',
         email: '',
         role: 'admin',
+        id: '',
         isLogged: true
     }
 }, action) => {

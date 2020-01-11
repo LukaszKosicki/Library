@@ -8,6 +8,7 @@ function AddBook() {
     const [title, setTitle] = useState([]);
     const [author, setAuthor] = useState('');
     const [category, setCategory] = useState('');
+    const [ilosc, setIlosc] = useState(0);
     
 
     function getAuthors() {
@@ -26,9 +27,10 @@ function AddBook() {
         var bookModel = {
             title: title,
             author: author,
-            category: category
+            category: category,
+            copiesNo: ilosc
         }
-
+ 
         fetch("api/book", {
             method: 'POST',
             headers: {
@@ -55,11 +57,15 @@ function AddBook() {
         <Form>
             <FormGroup>
                 <Label for="title">Tytuł</Label>
-                <Input type="text" name="title" id="title" placeholder="Title" />
+                <Input onChange={(e) => setTitle(e.target.value)} type="text" name="title" id="title" placeholder="Title" />
+            </FormGroup>           
+            <FormGroup>
+                <Label for="ilosc">Ilość książek</Label>
+                <Input onChange={(e) => setIlosc(e.target.value)} type="number" name="ilosc" id="ilosc" placeholder="Ilosc książek" />
             </FormGroup>
             <FormGroup>
-            <Label for="selectAuthor">Autor</Label>
-            <Input type="select" name="selectAuthor" id="selectAuthor">
+                <Label for="selectAuthor">Autor</Label>
+                <Input onChange={(e) => setAuthor(e.target.value)} type="select" name="selectAuthor" id="selectAuthor">
                 {
                     authors.map((item, index) => {
                         return (
@@ -71,7 +77,7 @@ function AddBook() {
             </FormGroup>
             <FormGroup>
                 <Label for="selectCategory">Kategoria:</Label>
-                <Input type="select" name="selectCategory" id="selectCategory">
+                <Input onChange={(e) => setCategory(e.target.value)} type="select" name="selectCategory" id="selectCategory">
                     {
                         categories.map((item, index) => {
                             return (
@@ -81,6 +87,7 @@ function AddBook() {
                     }
                 </Input>
             </FormGroup>
+            <Button onClick={() => { saveBook() }} type="button" color="warning">Dodaj książkę</Button>
         </Form>
         );
 

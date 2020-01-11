@@ -6,6 +6,7 @@ import Greeting from '../common/Greeting';
 import Users from "./Users";
 import Books from "./Books";
 import AddBook from "./AddBook";
+import BookLoans from "./BookLoans";
 
 const Tabs = props => {
 
@@ -41,6 +42,14 @@ const Tabs = props => {
                             Nowa książka
             </NavLink>
                     </NavItem>
+                    <NavItem>
+                        <NavLink
+                            className={classnames({ active: activeTab === '3' })}
+                            onClick={() => { toggle('4'); }}
+                        >
+                            Prośby 
+            </NavLink>
+                    </NavItem>
                 </Nav>
                 <TabContent activeTab={activeTab}>
                     <TabPane tabId="1">
@@ -61,6 +70,13 @@ const Tabs = props => {
                         <Row>
                             <Col sm="12">
                                 <AddBook />
+                            </Col>
+                        </Row>
+                    </TabPane>
+                    <TabPane tabId="4">
+                        <Row>
+                            <Col sm="12">
+                                <BookLoans />
                             </Col>
                         </Row>
                     </TabPane>
