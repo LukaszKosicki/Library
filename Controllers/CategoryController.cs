@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace Library.Controllers
 {
+    [Route("api/[controller]")]
     public class CategoryController : Controller
     {
         private ICategoryRepo repository;

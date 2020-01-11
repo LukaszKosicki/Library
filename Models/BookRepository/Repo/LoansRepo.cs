@@ -20,11 +20,23 @@ namespace Library.Models.BookRepository.Repo
 
         public string AddLoans(Book_Loans loans)
         {
-            if (loans != null)
+            if (loans.Date_Out == null && loans.Date_In == null)
             {
                 context.Loans.Add(loans);
                 context.SaveChanges();
                 return "Zarezerwowano książkę.";
+            }
+            else if (loans.Date_Out != null && loans.Date_In == null)
+            {
+                context.Loans.Add(loans);
+                context.SaveChanges();
+                return "Wypożyczono książkę.";
+            }
+            else if (loans.Date_Out != null && loans.Date_In != null)
+            {
+                context.Loans.Add(loans);
+                context.SaveChanges();
+                return "Zwrócono książkę.";
             }
             return null;
         }
