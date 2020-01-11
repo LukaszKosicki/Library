@@ -57,6 +57,7 @@ namespace Library.Controllers
             return Json(new { Msg = "Nie udało się utworzyć kategorii.", Result = false });
         }
 
+
         [HttpDelete]
         public JsonResult DeleteCategory([FromBody] CategoryViewModel model)
         {
