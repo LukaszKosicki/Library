@@ -68,19 +68,16 @@ namespace Library.Controllers
             return Json(new { Msg = "Nie udało się utworzyć książki.", Result = false });
         }
 
-        [HttpDelete]
-        public JsonResult DeleteBook([FromBody] BookViewModel model)
+        [HttpDelete("{id}")]
+        public JsonResult DeleteBook(int id)
         {
-            if (model != null)
-            {
-                var result = repository.DeleteBook(model.BookId);
+                var result = repository.DeleteBook(id);
+
                 if(result == true)
                 {
                     return Json(new { Msg = "Usunięto książkę ze zbioru.", Result = true });
                 }
                 return Json(new { Msg = "Książka nie istnieje.", Result = false });
-            }
-            return Json(new { Msg = "Nie przekazano książki.", Result = true });
         }
 
 

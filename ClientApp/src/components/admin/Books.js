@@ -4,11 +4,29 @@ import { Table, Button } from 'reactstrap';
 function Books() {
     const [books, setBooks] = useState([]);
 
-    useEffect(() => {
+    function getBooks() {
         fetch('api/book')
             .then(resp => resp.json())
             .then(resp => setBooks(resp))
+    }
+
+    useEffect(() => {
+        getBooks();
     })
+
+    function deleteBook(bookId) {
+        fetch('api/book/' + bookId, {
+            method: 'delete'
+        })
+            .then(resp => resp.json())
+            .then(resp => {
+                if (resp.result) {
+                    getBooks();
+                } else {
+                    alert(resp.msg);
+                }
+            })
+    }
 
     return (
         <Table striped>
@@ -28,7 +46,7 @@ function Books() {
                                 <th scope="row">{item.id}</th>
                                 <td>{item.title}</td>
                                 <td>{item.author}</td>
-                                <td><Button type="button" color="link">Usuń</Button></td>
+                                <td><Button onClick={() => deleteBook(item.id)} type="button" color="link">Usuń</Button></td>
                             </tr>
                             );
                     })

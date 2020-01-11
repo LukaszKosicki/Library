@@ -1,9 +1,10 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { Collapse, Container, Navbar, NavbarBrand, NavbarToggler, NavItem, NavLink } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import './NavMenu.css';
 
-export default class NavMenu extends React.Component {
+class NavMenu extends React.Component {
   constructor (props) {
     super(props);
 
@@ -49,3 +50,9 @@ export default class NavMenu extends React.Component {
     );
   }
 }
+
+const mapStateToProps = state => ({
+    role: state.user.user.role
+});
+
+export default connect(mapStateToProps)(NavMenu);

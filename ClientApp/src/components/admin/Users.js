@@ -4,19 +4,29 @@ import { Table, Button } from 'reactstrap';
 function Users() {
     const [users, setUsers] = useState([]);
 
-    useEffect(() => {
+    function getUsers() {
         fetch('api/user')
             .then(resp => resp.json())
             .then(resp => setUsers(resp))
+    }
+
+    useEffect(() => {
+        getUsers();
     })
 
     function deleteUser(userId) {
         console.log(userId);
-        fetch('api/user?id=' + userId, {
+        fetch('api/user/' + userId, {
             method: 'DELETE'
         })
             .then(resp => resp.json())
-            .then(resp => console.log(resp))        
+            .then(resp => {
+                if (resp.deleteResult) {
+                    getUsers();
+                } else {
+                    alert(resp.msg);
+                }
+            })        
     } 
 
     return (
