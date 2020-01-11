@@ -54,5 +54,15 @@ namespace Library.Models.BookRepository
             }
             return null;
         }
+
+        public bool AddBookNo(int id, int number)
+        {
+            Book book = new Book();
+            book = context.Books.FirstOrDefault(b =>
+                b.Id == id);
+            book.Get_Book_Copies.No_Of_Copies = number;
+            context.SaveChanges();
+            return false;
+        }
     }
 }

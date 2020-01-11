@@ -24,7 +24,7 @@ namespace Library.Models.BookRepository.Repo
             {
                 context.Loans.Add(loans);
                 context.SaveChanges();
-                return "Wypożyczono książkę.";
+                return "Zarezerwowano książkę.";
             }
             return null;
         }

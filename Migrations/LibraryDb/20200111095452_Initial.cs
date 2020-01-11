@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Library.Migrations.LibraryDb
 {
-    public partial class initial : Migration
+    public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -41,8 +41,8 @@ namespace Library.Migrations.LibraryDb
                     LoansId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     UserId = table.Column<string>(nullable: true),
-                    Date_Out = table.Column<DateTime>(nullable: false),
-                    Date_In = table.Column<DateTime>(nullable: false)
+                    Date_Out = table.Column<DateTime>(nullable: true),
+                    Date_In = table.Column<DateTime>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -57,8 +57,7 @@ namespace Library.Migrations.LibraryDb
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Title = table.Column<string>(nullable: true),
                     AuthorId = table.Column<int>(nullable: false),
-                    CategoryId = table.Column<int>(nullable: false),
-                    LoansId = table.Column<int>(nullable: true)
+                    CategoryId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -75,12 +74,6 @@ namespace Library.Migrations.LibraryDb
                         principalTable: "Categories",
                         principalColumn: "CategoryId",
                         onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Books_Loans_LoansId",
-                        column: x => x.LoansId,
-                        principalTable: "Loans",
-                        principalColumn: "LoansId",
-                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -103,11 +96,40 @@ namespace Library.Migrations.LibraryDb
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "BookLoansManyToMany",
+                columns: table => new
+                {
+                    BookId = table.Column<int>(nullable: false),
+                    Book_LoansId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_BookLoansManyToMany", x => new { x.BookId, x.Book_LoansId });
+                    table.ForeignKey(
+                        name: "FK_BookLoansManyToMany_Books_BookId",
+                        column: x => x.BookId,
+                        principalTable: "Books",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_BookLoansManyToMany_Loans_Book_LoansId",
+                        column: x => x.Book_LoansId,
+                        principalTable: "Loans",
+                        principalColumn: "LoansId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_Book_Copies_BookId",
                 table: "Book_Copies",
                 column: "BookId",
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_BookLoansManyToMany_Book_LoansId",
+                table: "BookLoansManyToMany",
+                column: "Book_LoansId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Books_AuthorId",
@@ -118,11 +140,6 @@ namespace Library.Migrations.LibraryDb
                 name: "IX_Books_CategoryId",
                 table: "Books",
                 column: "CategoryId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Books_LoansId",
-                table: "Books",
-                column: "LoansId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -131,16 +148,19 @@ namespace Library.Migrations.LibraryDb
                 name: "Book_Copies");
 
             migrationBuilder.DropTable(
+                name: "BookLoansManyToMany");
+
+            migrationBuilder.DropTable(
                 name: "Books");
+
+            migrationBuilder.DropTable(
+                name: "Loans");
 
             migrationBuilder.DropTable(
                 name: "Authors");
 
             migrationBuilder.DropTable(
                 name: "Categories");
-
-            migrationBuilder.DropTable(
-                name: "Loans");
         }
     }
 }

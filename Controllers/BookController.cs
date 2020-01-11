@@ -24,14 +24,15 @@ namespace Library.Controllers
         [HttpGet]
         public JsonResult GetBookList()
         {
-            var books = repository.Books.Include(b => b.Get_Book_Copies).FirstOrDefault(b => b.Id == 1);
-
-            //********************************************** naprawić, linq - ustawić tabele
-            return Json(repository.Books.Include(b => b.Get_Book_Authors).Select(b => new { 
+            var result = repository.Books.Include(b => b.Get_Book_Authors).Select(b => new
+            {
                 b.Id,
                 b.Title,
-                Author = b.Get_Book_Authors.Name
-            }));
+                Author = b.Get_Book_Authors.Name,
+                Category = b.Get_Category.Name,
+                CopiesNo = b.Get_Book_Copies.No_Of_Copies
+            });
+            return Json(result);
         }
 
         [HttpGet("{id}")]
@@ -42,6 +43,8 @@ namespace Library.Controllers
                 Book book = repository.FindBook(id);
                 if (book != null)
                 {
+                    // dodać zapytanie Linq o zwrot książki z autorem itp
+
                     return Json(book);
                 }
             }

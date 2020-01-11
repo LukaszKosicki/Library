@@ -18,7 +18,7 @@ namespace Library.Models.BookRepository.Model
 
         public Book_Copies Get_Book_Copies { get; set; }
 
-        public int? LoansId { get; set; }
-        public Book_Loans Book_Loans { get; set; }
+        public IList<BookLoansManyToMany> BookLoansManyToManies { get; set; }
+
     }
 }
