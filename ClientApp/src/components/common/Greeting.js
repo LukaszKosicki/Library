@@ -1,10 +1,10 @@
 ﻿import React from 'react';
 
-const Greeting = ({ userName, userSurname }) => {
+const Greeting = ({ userName }) => {
     return (
         <div className="mb-4">
             <h1>Panel użytkownika</h1>
-            <strong>{userName} {userSurname}</strong>
+            <strong>{userName}</strong>
         </div>
     )
 }

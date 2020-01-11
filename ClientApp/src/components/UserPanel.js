@@ -105,11 +105,15 @@ const UserPanel = props => (
     <section className="documentBody d-flex flex-column justify-content-start">
             <Container className="mt-5">
                 {/*TODO: Podmienić imię użytkownika na wartość z kontrolera.*/}
-                <Greeting userName="Jan" userSurname="Kowalski"/>
+                <Greeting userName={props.user.user.userName}/>
                 <Tabs/>
             </Container>
     </section>
 );
 
-export default connect()(UserPanel);
+const mapStateToProps = state => ({
+    user: state.user
+});
+
+export default connect(mapStateToProps)(UserPanel);
 

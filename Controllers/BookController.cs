@@ -2,6 +2,7 @@
 using Library.Models.BookRepository.Model;
 using Library.Models.ViewModel;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -23,8 +24,14 @@ namespace Library.Controllers
         [HttpGet]
         public JsonResult GetBookList()
         {
+            var books = repository.Books.Include(b => b.Get_Book_Copies).FirstOrDefault(b => b.Id == 1);
+
             //********************************************** naprawić, linq - ustawić tabele
-            return Json(repository.Books);
+            return Json(repository.Books.Include(b => b.Get_Book_Authors).Select(b => new { 
+                b.Id,
+                b.Title,
+                Author = b.Get_Book_Authors.Name
+            }));
         }
 
         [HttpGet("{id}")]
