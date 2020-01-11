@@ -12,7 +12,8 @@ function Users() {
 
     useEffect(() => {
         getUsers();
-    })
+        console.log()
+    }, [])
 
     function deleteUser(userId) {
         console.log(userId);
@@ -41,9 +42,9 @@ function Users() {
             </thead>
             <tbody>
                 {
-                    users.map(item => {
+                    users.map((item, index) => {
                         return (
-                            <tr>
+                            <tr key={"user" + index}>
                                 <th scope="row">{item.id}</th>
                                 <td>{item.userName}</td>
                                 <td>{item.email}</td>
