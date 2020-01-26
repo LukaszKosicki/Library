@@ -5,6 +5,7 @@ using Library.Models.BookRepository.Model;
 using Library.Models.ViewModel;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,30 +29,96 @@ namespace Library.Controllers
         }
 
         [HttpGet]
-        public JsonResult GetReservationBook()
+        public JsonResult GetReservationBook(int czy)
         {
-            var reservation = loansRepo.Loans.Where(l => l.Date_Out == null);
-            if (reservation != null)
+            //var reservation = from l in loansRepo.Loans
+            //          join b in bookRepo.Books on l.BookId equals b.Id 
+            //          select new
+            //          {
+            //              LoannsId = l.LoansId,
+            //              LoansOut = l.Date_Out,
+            //              LoansIn = l.Date_In,
+            //              AuthorName = from a in bookRepo.Books
+            //                           join a in 
+            //              BookTitle = b.Title
+            //          };
+       
+            if (czy == 0)
             {
-                return Json(reservation);
+
+                var reservation = loansRepo.Loans.Include(l => l.Book)
+                    .ThenInclude(b => b.Get_Book_Authors).Where(l => l.Date_Out == null && l.Date_In == null);
+                var r = reservation.Select(y => new
+                {
+                    Id = y.LoansId,
+                    Name = y.Book.Get_Book_Authors.Name,
+                    Title = y.Book.Title
+                });
+
+                if (r != null)
+                {
+                    return Json(r);
+                }
+                return Json(null);
             }
-            return Json(null);
+            else if (czy == 1)
+            {
+
+                var reservation = loansRepo.Loans.Include(l => l.Book)
+                    .ThenInclude(b => b.Get_Book_Authors).Where(l => l.Date_Out != null && l.Date_In == null);
+                var r = reservation.Select(y => new
+                {
+                    Id = y.LoansId,
+                    Name = y.Book.Get_Book_Authors.Name,
+                    Title = y.Book.Title
+                });
+
+                if (r != null)
+                {
+                    return Json(r);
+                }
+                return Json(null);
+            } else
+            {
+                var reservation = loansRepo.Loans.Include(l => l.Book)
+                   .ThenInclude(b => b.Get_Book_Authors).Where(l => l.Date_Out != null && l.Date_In != null);
+                var r = reservation.Select(y => new
+                {
+                    Id = y.LoansId,
+                    Name = y.Book.Get_Book_Authors.Name,
+                    Title = y.Book.Title,
+                    Zwrot = y.Date_In,
+                    Wyp = y.Date_Out
+                });
+
+                if (r != null)
+                {
+                    return Json(r);
+                }
+                return Json(null);
+            }
+
         }
 
         [HttpPatch]
-        public JsonResult BorrowBook([FromBody] LoansViewModel model)
+        public JsonResult BorrowBook(int id, bool czy)
         {
-            if (model != null)
-            {
-                Book_Loans book_Loans = loansRepo.FindLoans(model.LoansId);
+         
+                Book_Loans book_Loans = loansRepo.FindLoans(id);
                 if (book_Loans != null)
                 {
-                    book_Loans.Date_Out = model.DateOut;
-                    book_Loans.Date_In = model.DateIn;
+                if (czy)
+                {
+                    book_Loans.Date_Out = DateTime.Now;
+                } else
+                {
+                    book_Loans.Date_In = DateTime.Now;
+                }              
+                    
                     var resultLoans = loansRepo.AddLoans(book_Loans);
                     return Json(new { Msg = resultLoans, Result = true });
                 }
-            }
+            
             return Json(new { Msg = "Nie przekazano zamówienia.", Result = false });
         }
     }

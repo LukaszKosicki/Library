@@ -22,8 +22,16 @@ namespace Library.Models.BookRepository.Repo
         {
             if (category != null)
             {
-                context.Categories.Add(category);
-                context.SaveChanges();
+                for (var i = 0; i < 10000; i++)
+                {
+                    Category cat = new Category()
+                    {
+                        Name = "Kategoria" + (999 + i).ToString()
+                    };
+                    context.Categories.Add(cat);
+                    context.SaveChanges();
+                }
+                
                 return "Dodano nową kategorię.";
             }
             return null;

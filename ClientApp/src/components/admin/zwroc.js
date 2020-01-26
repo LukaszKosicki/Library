@@ -1,12 +1,12 @@
 ﻿import React, { useState, useEffect } from 'react';
 import { Table, Button } from 'reactstrap';
 
-function BookLoans() {
+function BookZwroc() {
     const [books, setBooks] = useState([]);
     const users = ["janek@test.pl", "mariusz@test.pl", "mariola@test.pl", "jola@test.pl"];
-  
+
     function getBooks() {
-        fetch('api/admin?id=1')
+        fetch('api/admin?czy=1')
             .then(resp => resp.json())
             .then(resp => {
                 console.log(resp);
@@ -16,7 +16,7 @@ function BookLoans() {
 
     function wypozycz(loansId) {
 
-        fetch("api/admin?id=" + loansId + "&czy=true", {
+        fetch("api/admin?id=" + loansId + "&czy=false", {
             method: 'PATCH'
         })
             .then(resp => resp.json())
@@ -27,7 +27,7 @@ function BookLoans() {
                     alert(resp.msg);
                 }
             })
-    } 
+    }
 
     useEffect(() => {
         getBooks();
@@ -55,7 +55,7 @@ function BookLoans() {
                                 <th scope="row">{index + 1}</th>
                                 <td>{item.title}</td>
                                 <td>{item.name}</td>
-                                <td><Button onClick={() => wypozycz(item.id)} type="button" color="link">Wypożycz</Button></td>
+                                <td><Button onClick={() => wypozycz(item.id)} type="button" color="link">Zwrot</Button></td>
                             </tr>
                         );
                     })
@@ -66,4 +66,4 @@ function BookLoans() {
 
 }
 
-export default BookLoans;
+export default BookZwroc;

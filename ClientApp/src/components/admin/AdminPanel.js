@@ -7,6 +7,10 @@ import Users from "./Users";
 import Books from "./Books";
 import AddBook from "./AddBook";
 import BookLoans from "./BookLoans";
+import Categories from "./Categories";
+import Author from "./Author";
+import BookZwroc from "../admin/zwroc";
+import BookZwrot from "../admin/zwrocone";
 
 const Tabs = props => {
 
@@ -21,7 +25,7 @@ const Tabs = props => {
                     <NavItem>
                         <NavLink
                             className={classnames({ active: activeTab === '1' })}
-                            onClick={() => { toggle('1'); console.log(props);}}
+                            onClick={() => { toggle('1'); }}
                         >
                             Użytkownicy
             </NavLink>
@@ -44,10 +48,42 @@ const Tabs = props => {
                     </NavItem>
                     <NavItem>
                         <NavLink
-                            className={classnames({ active: activeTab === '3' })}
+                            className={classnames({ active: activeTab === '4' })}
                             onClick={() => { toggle('4'); }}
                         >
                             Prośby 
+            </NavLink>
+                    </NavItem>
+                    <NavItem>
+                        <NavLink
+                            className={classnames({ active: activeTab === '5' })}
+                            onClick={() => { toggle('5'); }}
+                        >
+                            Kategorie
+            </NavLink>
+                    </NavItem>
+                    <NavItem>
+                        <NavLink
+                            className={classnames({ active: activeTab === '6' })}
+                            onClick={() => { toggle('6'); }}
+                        >
+                          Autorzy
+            </NavLink>
+                    </NavItem>
+                    <NavItem>
+                        <NavLink
+                            className={classnames({ active: activeTab === '7' })}
+                            onClick={() => { toggle('7'); }}
+                        >
+                            Zwroty
+            </NavLink>
+                    </NavItem>
+                    <NavItem>
+                        <NavLink
+                            className={classnames({ active: activeTab === '8' })}
+                            onClick={() => { toggle('8'); }}
+                        >
+                            Zwrócone
             </NavLink>
                     </NavItem>
                 </Nav>
@@ -77,6 +113,34 @@ const Tabs = props => {
                         <Row>
                             <Col sm="12">
                                 <BookLoans />
+                            </Col>
+                        </Row>
+                    </TabPane>
+                    <TabPane tabId="5">
+                        <Row>
+                            <Col sm="12">
+                                <Categories />
+                            </Col>
+                        </Row>
+                    </TabPane>
+                    <TabPane tabId="6">
+                        <Row>
+                            <Col sm="12">
+                                <Author />
+                            </Col>
+                        </Row>
+                    </TabPane>
+                    <TabPane tabId="7">
+                        <Row>
+                            <Col sm="12">
+                                <BookZwroc />
+                            </Col>
+                        </Row>
+                    </TabPane>
+                    <TabPane tabId="8">
+                        <Row>
+                            <Col sm="12">
+                                <BookZwrot />
                             </Col>
                         </Row>
                     </TabPane>

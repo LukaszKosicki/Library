@@ -28,13 +28,13 @@ namespace Library.Models.BookRepository.Repo
             }
             else if (loans.Date_Out != null && loans.Date_In == null)
             {
-                context.Loans.Add(loans);
+                context.Loans.Update(loans);
                 context.SaveChanges();
                 return "Wypożyczono książkę.";
             }
             else if (loans.Date_Out != null && loans.Date_In != null)
             {
-                context.Loans.Add(loans);
+                context.Loans.Update(loans);
                 context.SaveChanges();
                 return "Zwrócono książkę.";
             }

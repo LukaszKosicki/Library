@@ -2,37 +2,37 @@
 import { Button, Form, FormGroup, Label, Input, Table, FormText } from 'reactstrap';
 import { connect } from "react-redux";
 
-function Categories() {
-    const [categories, setCategories] = useState([]);
+function Author() {
+    const [authors, setAuthors] = useState([]);
     const [name, setName] = useState("");
 
-    function getCategory() {
-        fetch('api/category')
+    function getAuthor() {
+        fetch('api/author')
             .then(resp => resp.json())
-            .then(resp => { setCategories(resp); setName(''); })
+            .then(resp => { setAuthors(resp); setName(''); })
     }
 
     function deleteCat(id) {
         console.log(id);
-        fetch('api/category/' + id, {
+        fetch('api/author/' + id, {
             method: 'DELETE'
         })
             .then(resp => resp.json())
             .then(resp => {
                 if (resp.result) {
-                    getCategory();
+                    getAuthor();
                 } else {
                     alert(resp.msg);
                 }
             })   
     }
 
-    function sendCategory() {
+    function sendAuthor() {
         var categoryModel = {
             name: name
         }
 
-        fetch('api/category', {
+        fetch('api/author', {
             method: "post",
             headers: {
                 "Content-Type": "application/json"
@@ -42,7 +42,7 @@ function Categories() {
             .then(resp => resp.json())
             .then(resp => {
                 if (resp.result) {
-                    getCategory();
+                    getAuthor();
                 } else {
                     alert(resp.msg);
                 }
@@ -50,17 +50,17 @@ function Categories() {
     }
 
     useEffect(() => {
-        getCategory();
+        getAuthor();
     }, [])
 
     return (
         <div>
         <Form>
             <FormGroup>
-                    <Label for="title">Tytuł</Label>
-                    <Input value={name} onChange={(e) => setName(e.target.value)} type="text" name="title" id="title" placeholder="Title" />
-            </FormGroup>
-            <Button onClick={() => { sendCategory() }} type="button" color="warning">Dodaj</Button>
+                    <Label for="name">Autor</Label>
+                    <Input value={name} onChange={(e) => setName(e.target.value)} type="text" name="name" id="name" placeholder="Autor" />
+                </FormGroup>
+                <Button onClick={() => { sendAuthor() }} type="button" color="warning">Dodaj</Button>
         </Form>
             <Table striped>
                 <thead>
@@ -72,12 +72,12 @@ function Categories() {
                 </thead>
                 <tbody>
                     {
-                        categories.map((item, index) => {
+                        authors.map((item, index) => {
                             return (
                                 <tr key={"cat" + index}>
-                                    <th scope="row">{item.categoryId}</th>
+                                    <th scope="row">{item.authorId}</th>
                                     <td>{item.name}</td>
-                                    <td><Button onClick={() => deleteCat(item.categoryId)} type="button" color="link">Usuń</Button></td>
+                                    <td><Button onClick={() => deleteCat(item.authorId)} type="button" color="link">Usuń</Button></td>
                                 </tr>
                             );
                         })
@@ -89,4 +89,4 @@ function Categories() {
 
 }
 
-export default connect()(Categories);
+export default connect()(Author);

@@ -1,4 +1,5 @@
 ﻿using Library.Models.BookRepository;
+using Library.Models.BookRepository.Interface;
 using Library.Models.BookRepository.Model;
 using Library.Models.ViewModel;
 using Microsoft.AspNetCore.Mvc;
@@ -14,17 +15,22 @@ namespace Library.Controllers
     [Route("api/[controller]")]
     public class BookController : Controller
     {
-        private IBookRepo repository;
+        private IBookRepo bookRepo;
+        private IAuthorRepo authorRepo;
+        private ICategoryRepo categoryRepo;
 
-        public BookController(IBookRepo repo)
+        public BookController(IBookRepo repo,
+            IAuthorRepo authorRp, ICategoryRepo categoryRp)
         {
-            repository = repo;
+            bookRepo = repo;
+            authorRepo = authorRp;
+            categoryRepo = categoryRp;
         }
 
         [HttpGet]
         public JsonResult GetBookList()
         {
-            var result = repository.Books.Include(b => b.Get_Book_Authors).Select(b => new
+            var result = bookRepo.Books.Include(b => b.Get_Book_Authors).Select(b => new
             {
                 b.Id,
                 b.Title,
@@ -40,7 +46,7 @@ namespace Library.Controllers
         {
             if (id != 0)
             {
-                Book book = repository.FindBook(id);
+                Book book = bookRepo.FindBook(id);
                 if (book != null)
                 {
                     // dodać zapytanie Linq o zwrot książki z autorem itp
@@ -56,13 +62,20 @@ namespace Library.Controllers
         {
             if (model != null)
             {
+                Book_Authors author = authorRepo.FindAuthor(model.AuthorId);
+
+                Category category = categoryRepo.FindCategory(model.CategoryId);
+
+                Book_Copies copies = new Book_Copies();
+                copies.No_Of_Copies = model.CopiesNo;
+
                 Book book = new Book();
                 book.Title = model.Title;
-                book.Get_Book_Authors.Name = model.Author;
-                book.Get_Category.Name = model.Category;
-                book.Get_Book_Copies.No_Of_Copies = model.CopiesNo;
+                book.Get_Book_Authors = author;
+                book.Get_Category = category;
+                book.Get_Book_Copies = copies;
 
-                var result = repository.AddBook(book);
+                var result = bookRepo.AddBook(book);
                 if (result != null)
                 {
                     return Json(new { Msg = result, Result = true });
@@ -73,16 +86,13 @@ namespace Library.Controllers
 
         [HttpDelete("{id}")]
         public JsonResult DeleteBook(int id)
-        {
-                var result = repository.DeleteBook(id);
-
-                if(result == true)
+        {   
+                var result = bookRepo.DeleteBook(id);
+                if (result == true)
                 {
                     return Json(new { Msg = "Usunięto książkę ze zbioru.", Result = true });
                 }
                 return Json(new { Msg = "Książka nie istnieje.", Result = false });
         }
-
-
     }
 }

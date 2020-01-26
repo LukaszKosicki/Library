@@ -26,11 +26,11 @@ function AddBook() {
     function saveBook() {
         var bookModel = {
             title: title,
-            author: author,
-            category: category,
+            authorId: author,
+            categoryId: category,
             copiesNo: ilosc
         }
- 
+        console.log(bookModel);
         fetch("api/book", {
             method: 'POST',
             headers: {
@@ -69,7 +69,7 @@ function AddBook() {
                 {
                     authors.map((item, index) => {
                         return (
-                            <option key={"opt" + index}>{item.name}</option>
+                            <option value={item.authorId} key={"opt" + index}>{item.name}</option>
                         );
                     })
                 }
@@ -81,7 +81,7 @@ function AddBook() {
                     {
                         categories.map((item, index) => {
                             return (
-                                <option key={"cat" + index}>{item.name}</option>
+                                <option value={item.categoryId} key={"cat" + index}>{item.name}</option>
                             );
                         })
                     }

@@ -47,29 +47,31 @@ namespace Library.Controllers
             {
                 Category category = new Category();
                 category.Name = model.Name;
-
-                var result = repository.AddCategory(category);
+                string result = "";
+               
+               
+                    result = repository.AddCategory(category);
+                
+                
                 if (result != null)
                 {
-                    return Json(new { Msg = result, Result = true });
+                    return Json(new { Msg = category, Result = true });
                 }
             }
             return Json(new { Msg = "Nie udało się utworzyć kategorii.", Result = false });
         }
 
-        [HttpDelete]
-        public JsonResult DeleteCategory([FromBody] CategoryViewModel model)
-        {
-            if (model != null)
-            {
-                var result = repository.DeleteCategory(model.CategoryId);
+
+        [HttpDelete("{id}")]
+        public JsonResult DeleteCategory(int id)
+        {     
+                var result = repository.DeleteCategory(id);
                 if (result == true)
                 {
                     return Json(new { Msg = "Usunięto kategorię z bazy.", Result = true });
                 }
                 return Json(new { Msg = "Kategoria nie istnieje.", Result = false });
-            }
-            return Json(new { Msg = "Nie przekazano kategorii.", Result = true });
+           
         }
     }
 }

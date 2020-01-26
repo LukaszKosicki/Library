@@ -56,19 +56,15 @@ namespace Library.Controllers
             return Json(new { Msg = "Nie udało się utworzyć autora.", Result = false });
         }
 
-        [HttpDelete]
-        public JsonResult DeleteAuthor([FromBody] AuthorViewModel model)
-        {
-            if (model != null)
-            {
-                var result = repository.DeleteAuthor(model.AuthorId);
+        [HttpDelete("{id}")]
+        public JsonResult DeleteAuthor(int id)
+        {          
+                var result = repository.DeleteAuthor(id);
                 if (result == true)
                 {
                     return Json(new { Msg = "Usunięto autora z bazy.", Result = true });
                 }
-                return Json(new { Msg = "Autor nie istnieje.", Result = false });
-            }
-            return Json(new { Msg = "Nie przekazano autora.", Result = true });
+                return Json(new { Msg = "Autor nie istnieje.", Result = false });       
         }
     }
 }

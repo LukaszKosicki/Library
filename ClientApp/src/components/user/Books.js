@@ -1,33 +1,30 @@
 ﻿import React, { useState, useEffect } from 'react';
 import { Table, Button } from 'reactstrap';
+import { connect } from 'react-redux';
 
-function BookLoans() {
+function Books(props) {
     const [books, setBooks] = useState([]);
-    const users = ["janek@test.pl", "mariusz@test.pl", "mariola@test.pl", "jola@test.pl"];
-  
+
     function getBooks() {
-        fetch('api/admin?id=1')
+        fetch('api/book')
             .then(resp => resp.json())
-            .then(resp => {
-                console.log(resp);
-                setBooks(resp)
-            })
+            .then(resp => { console.log(resp); setBooks(resp);})
     }
 
-    function wypozycz(loansId) {
-
-        fetch("api/admin?id=" + loansId + "&czy=true", {
-            method: 'PATCH'
+    function rezerwuj(bookId) {
+        console.log(props.user);
+        fetch("api/loans?userId=" + props.user.user.id + "&bookId=" + bookId, {
+            method: 'POST'
         })
             .then(resp => resp.json())
             .then(resp => {
                 if (resp.result) {
-                    getBooks();
+                    alert(resp.msg)
                 } else {
                     alert(resp.msg);
                 }
             })
-    } 
+    }
 
     useEffect(() => {
         getBooks();
@@ -45,25 +42,25 @@ function BookLoans() {
             </thead>
             <tbody>
                 {
-                    books.length === 0 && <h4>Brak zapytań</h4>
-                }
-                {
-                    books.length > 0 && books.map((item, index) => {
-                        console.log(item);
+                    books.map((item, index) => {
                         return (
                             <tr key={"book" + index}>
-                                <th scope="row">{index + 1}</th>
+                                <th scope="row">{item.id}</th>
                                 <td>{item.title}</td>
-                                <td>{item.name}</td>
-                                <td><Button onClick={() => wypozycz(item.id)} type="button" color="link">Wypożycz</Button></td>
+                                <td>{item.author}</td>
+                                <td><Button onClick={() => { rezerwuj(item.id) }} type="button" color="link">Zarezerwuj</Button></td>
                             </tr>
-                        );
+                            );
                     })
                 }
             </tbody>
         </Table>
-    );
+        );
 
 }
 
-export default BookLoans;
+const mapStateToProps = state => ({
+    user: state.user
+});
+
+export default connect(mapStateToProps)(Books);

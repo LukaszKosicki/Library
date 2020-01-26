@@ -11,8 +11,10 @@ namespace Library.Models.BookRepository.Model
         [Key]
         public int LoansId { get; set; }
         public string UserId { get; set; }
+        public int BookId { get; set; }
         public DateTime? Date_Out { get; set; }
         public DateTime? Date_In { get; set; }
+        public Book Book { get; set; }
 
         public IList<BookLoansManyToMany> BookLoansManyToManies { get; set; }
     }

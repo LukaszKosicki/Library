@@ -2,11 +2,11 @@
 
 export default (state = {
     user: {
-        userName: 'admin',
+        userName: '',
         email: '',
-        role: 'admin',
+        role: '',
         id: '',
-        isLogged: true
+        isLogged: false
     }
 }, action) => {
     switch (action.type) {

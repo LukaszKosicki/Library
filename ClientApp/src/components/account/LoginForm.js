@@ -44,9 +44,7 @@ function LoginForm(props) {
                 .then(resp => resp.json())
                 .then(resp => {
                     if (resp.signInResult == true) {
-                        console.log(resp);
                         props.setUser(resp.user);
-                        console.log(props);
                     }
                 });
         } else {
